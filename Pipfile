@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 flask = "~=2.0"
+celery = "~=5.1"
 
 [dev-packages]
 
