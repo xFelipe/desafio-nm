@@ -10,8 +10,7 @@ app = Flask(__name__)
 
 @app.route('/send-image', methods=['POST'])
 def send_image():
-    if not os.path.isdir(RECEIVED_IMAGES_FOLDER):
-        os.mkdir(RECEIVED_IMAGES_FOLDER)
+    os.makedirs(RECEIVED_IMAGES_FOLDER, exist_ok=True)
 
     file = request.files['image']
     new_file_name = datetime.now().strftime('%y_%m_%d__%H_%M_%S-') + file.filename

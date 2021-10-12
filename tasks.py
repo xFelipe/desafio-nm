@@ -1,16 +1,46 @@
 from celery import Celery
+from PIL import Image, UnidentifiedImageError
 import logging
+import os
+from shutil import copyfile
 
-
-broker_host = 'localhost'
+BROKER_USER = 'guest'
+BROKER_HOST = 'localhost'
+RECEIVED_IMAGES_FOLDER = 'received_images'
+RESIZED_IMAGES_FOLDER = 'resized_images'
+IMAGES_WITH_ERROR_FOLDER = 'error_images'
 
 logging.getLogger().setLevel(logging.INFO)
-app = Celery('tasks', broker=f'pyamqp://guest@{broker_host}//')
+
+app = Celery('tasks', broker=f'pyamqp://{BROKER_USER}@{BROKER_HOST}//')
 
 
-@app.task
-def resize_image(image_path: str, new_width: int, new_height: int):
+@app.task()
+def resize_image(file_name: str, new_width: int, new_height: int):
     """Read a received image, put it resized in a resized images folder and
     delete the origial non-resized image.
     """
-    logging.info(f'Image "{image_path}" was resized to {new_width}x{new_height}')
+    logging.info({
+        'file_name': file_name,
+        'new_width': new_width,
+        'new_height': new_height
+    })
+
+    os.makedirs(RESIZED_IMAGES_FOLDER, exist_ok=True)
+    os.makedirs(IMAGES_WITH_ERROR_FOLDER, exist_ok=True)
+
+    try:
+        image = Image.open(os.path.join(RECEIVED_IMAGES_FOLDER, file_name))
+    except UnidentifiedImageError as e:
+        logging.error(e)
+        copyfile(
+            os.path.join(RECEIVED_IMAGES_FOLDER, file_name),
+            os.path.join(IMAGES_WITH_ERROR_FOLDER, file_name)
+        )
+        return
+
+    resized_image = image.resize((new_width, new_height))
+    resized_image.save(os.path.join(RESIZED_IMAGES_FOLDER, file_name))
+    logging.info(
+        f'Image "{file_name}" was resized to {new_width}x{new_height}'
+    )

@@ -1,2 +1,4 @@
 *.pyc
 received_images/*
+error_images/*
+resized_images/*

@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 flask = "~=2.0"
 celery = "~=5.1"
+pillow = "~=8.3"
 
 [dev-packages]
 
