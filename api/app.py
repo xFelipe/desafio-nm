@@ -3,7 +3,7 @@ from datetime import datetime
 from flask import Flask, request
 from tasks import resize_image
 
-RECEIVED_IMAGES_FOLDER = 'received_images'
+RECEIVED_IMAGES_FOLDER = '/home/felipe/projetos/desafio_neural_med/received_images'
 
 
 app = Flask(__name__)
