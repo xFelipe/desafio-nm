@@ -1,0 +1,53 @@
+{
+	"info": {
+		"_postman_id": "995ff16e-ed2b-4d6a-a652-0163933087d9",
+		"name": "desafio neural med",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "send image",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/home/felipe/Downloads/Felipe Gomes.png"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/home/felipe/Downloads/config.yml",
+							"disabled": true
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/home/felipe/Imagens/jpeg.jpg",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://0.0.0.0:5000/send-image",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "5000",
+					"path": [
+						"send-image"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

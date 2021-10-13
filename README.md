@@ -20,3 +20,8 @@
 **Subindo API:**
  - `cd api`
  - `flask run`
+
+
+### Consultado API:
+ - Enviar um `POST` para a rota `/send-image`. No `form_data` adicionar key `image` apontando para arquivo da image.
+ - Exemplos de requisição: `desafio neural med.postman_collection.json`.
