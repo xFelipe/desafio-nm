@@ -4,11 +4,13 @@ import logging
 import os
 from shutil import copyfile
 
-BROKER_USER = 'guest'
-BROKER_HOST = 'localhost'
-RECEIVED_IMAGES_FOLDER = 'received_images'
-RESIZED_IMAGES_FOLDER = 'resized_images'
-IMAGES_WITH_ERROR_FOLDER = 'error_images'
+BROKER_USER = os.environ.get('BROKER_USER') or 'guest'
+BROKER_HOST = os.environ.get('BROKER_HOST') or 'localhost'
+
+IMAGES_FOLDER = os.environ.get('IMAGES_PATH') or 'images'
+RECEIVED_IMAGES_FOLDER = os.path.join(IMAGES_FOLDER, 'received_images')
+RESIZED_IMAGES_FOLDER = os.path.join(IMAGES_FOLDER, 'resized_images')
+IMAGES_WITH_ERROR_FOLDER = os.path.join(IMAGES_FOLDER, 'error_images')
 
 logging.getLogger().setLevel(logging.INFO)
 

@@ -1,0 +1,51 @@
+version: "3.8"
+
+x-images-volume:
+  &images-volume
+  type: bind
+  source: ./images
+  target: /images
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./api/Dockerfile
+    environment:
+      - IMAGES_PATH=/images
+      - BROKER_HOST=rabbitmq
+    volumes:
+      - *images-volume
+    ports:
+      - 5000:5000
+    networks:
+      - my-net
+    depends_on:
+      - rabbitmq
+
+  rabbitmq:
+    image: rabbitmq
+    networks:
+      - my-net
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASSWORD=guest
+
+
+  worker:
+    build:
+      context: .
+      dockerfile: ./tasks/Dockerfile
+    environment:
+      - IMAGES_PATH=/images
+      - BROKER_HOST=rabbitmq
+    volumes:
+      - *images-volume
+    networks:
+      - my-net
+    depends_on:
+      - rabbitmq
+
+
+networks:
+  my-net:

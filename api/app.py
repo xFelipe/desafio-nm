@@ -3,7 +3,8 @@ from datetime import datetime
 from flask import Flask, request
 from tasks import resize_image
 
-RECEIVED_IMAGES_FOLDER = '/home/felipe/projetos/desafio_neural_med/received_images'
+IMAGES_FOLDER = os.environ.get('IMAGES_PATH') or '../images'
+RECEIVED_IMAGES_FOLDER = os.path.join(IMAGES_FOLDER, 'received_images')
 
 
 app = Flask(__name__)
@@ -14,7 +15,8 @@ def send_image():
 
     file = request.files['image']
     new_file_name = datetime.now().strftime('%y_%m_%d__%H_%M_%S-') + file.filename
-    new_file_path = os.path.join(RECEIVED_IMAGES_FOLDER,new_file_name)
+    new_file_path = os.path.join(RECEIVED_IMAGES_FOLDER, new_file_name)
+    print("new_file_path:", new_file_path)
     with open(new_file_path, 'wb') as new_file:
         new_file.write(file.read())
 

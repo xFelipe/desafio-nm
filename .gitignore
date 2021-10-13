@@ -1,4 +1,5 @@
 *.pyc
-received_images/*
-error_images/*
-resized_images/*
+*/error_images
+*/received_images
+*/resized_images
+
